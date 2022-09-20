@@ -1,1 +1,229 @@
+<!doctype html>
+<html lang="en">
 
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <title>너만 오타쿠가 아니야!, 리뷰 작성 페이지</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+
+    <style>
+
+        * {
+            font-family: 'Jua', sans-serif;
+            font-size: x-large;
+        }
+
+        .wrap {
+            width: 900px;
+            margin: auto;
+
+            padding-top: 200px;
+        }
+
+        .image {
+            width: 300px;
+            height: 400px;
+
+            margin-right: 200px;
+
+        }
+
+        .top {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .review {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            font-size: large;
+            margin-top: 10px;
+        }
+
+        .review > button {
+            margin-top: 10px;
+            margin-left: 800px;
+        }
+
+        .inputs {
+            width: 400px;
+            height: 400px;
+            margin: auto;
+        }
+
+        .inputs > .title {
+            padding-bottom: 20px;
+        }
+
+        .inputs > .genre {
+            padding-bottom: 20px;
+        }
+
+
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            bsCustomFileInput.init()
+            listing()
+        })
+
+        function listing() {
+            $.ajax({
+                type: "GET",
+                url: "/page",
+                data: {},
+                success: function (response) {
+                    let pages = response['all_page']
+                    for (let i = 0; i < pages.length; i++) {
+                        let title = pages[i]['title']
+                        let content = pages[i]['content']
+                        let star = pages[i]['star']
+                        let genre = pages[i]['genre']
+
+                        let star_image = star.repeat('👍')
+
+                        let temp_html = ``
+                    }
+                }
+            })
+        }
+
+        function posting() {
+            let title = $('#title').val()
+            let content = $("#content").val()
+            let genre = $("#genre").val()
+            let star = $("#star").val()
+
+            let file = $('#file')[0].files[0]
+            let form_data = new FormData()
+
+            form_data.append("file_give", file)
+            form_data.append("title_give", title)
+            form_data.append("content_give", content)
+            form_data.append("genre_give", genre)
+            form_data.append("star_give", star)
+
+            if (genre == '카테고리 선택하기') {
+                alert('카테고리를 설정해 주세요')
+            } else if (star == '--따봉 갯수--') {
+                alert('따봉을 설정해 주세요')
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/page",
+                    data: form_data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        alert(response["msg"])
+                        window.location.reload()
+                    }
+                });
+            }
+
+
+        }
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('preview').src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                document.getElementById('preview').src = "";
+            }
+        }
+
+    </script>
+</head>
+
+<body>
+<div class="wrap">
+    <h1>리뷰 작성하기</h1>
+    <div class="top">
+        <div class="image-box">
+            <div class="image">
+                <img src="../static/prev.jpg" id="preview" style="max-width: 100%">
+            </div>
+            <div>
+                <input type="file" onchange="readURL(this);" id="file">
+            </div>
+        </div>
+
+        <div class="inputs">
+            <div class="title">
+                <label for="title">제목</label>
+                <input type="email" class="form-control" id="title" aria-describedby="emailHelp"
+                       placeholder="제목을 입력하세요">
+            </div>
+            <div class="genre">
+                <label for="genre">카테고리</label>
+                <select class="form-control" id="genre">
+                    <option>카테고리 선택하기</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+            </div>
+            <div class="good">
+                <label for="star">따봉👍</label>
+                <select class="form-control" id="star">
+                    <option>--따봉 갯수--</option>
+                    <option>👍</option>
+                    <option>👍👍</option>
+                    <option>👍👍👍</option>
+                    <option>👍👍👍👍</option>
+                    <option>👍👍👍👍👍</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="review" id="box">
+        <label for="content">리 뷰</label>
+        <textarea class="form-control" id="content" rows="3"
+                  placeholder="리뷰를 입력하세요"></textarea>
+        <button type="button" class="btn btn-info" onclick="posting()">올리기</button>
+    </div>
+</div>
+</body>
+
+</html>
