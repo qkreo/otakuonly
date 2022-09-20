@@ -15,7 +15,7 @@ app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 
 SECRET_KEY = 'SPARTA'
 
-client = MongoClient("mongodb+srv://qkero407:!1dae901105@cluster0.iao4kcr.mongodb.net/?retryWrites=true&w=majority")
+client = MongoClient("mongodb+srv://qkero407:Qvr1Wt574O3CdofS@cluster0.iao4kcr.mongodb.net/?retryWrites=true&w=majority")
 db = client.dbsparta
 
 @app.route('/')
