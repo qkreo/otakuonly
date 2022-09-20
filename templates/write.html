@@ -10,6 +10,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" as="style" crossorigin
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.5/dist/web/static/pretendard.css"/>
+
+
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -27,120 +33,35 @@
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+        {# 스타일 시트 불러오기#}
+    <link href="{{ url_for('static', filename='otaku.css') }}" rel="stylesheet">
 
-    <style>
-
-        * {
-            font-family: 'Jua', sans-serif;
-            font-size: x-large;
-        }
-
-        .wrap {
-            width: 900px;
-            margin: auto;
-
-            padding-top: 200px;
-        }
-
-        .image {
-            width: 300px;
-            height: 400px;
-
-            margin-right: 200px;
-
-        }
-
-        .top {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .image-box {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .review {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-
-            font-size: large;
-            margin-top: 10px;
-        }
-
-        .review > button {
-            margin-top: 10px;
-            margin-left: 800px;
-        }
-
-        .inputs {
-            width: 400px;
-            height: 400px;
-            margin: auto;
-        }
-
-        .inputs > .title {
-            padding-bottom: 20px;
-        }
-
-        .inputs > .genre {
-            padding-bottom: 20px;
-        }
-
-
-    </style>
 
     <script>
-        $(document).ready(function () {
-            bsCustomFileInput.init()
-            listing()
-        })
 
-        function listing() {
-            $.ajax({
-                type: "GET",
-                url: "/page",
-                data: {},
-                success: function (response) {
-                    let pages = response['all_page']
-                    for (let i = 0; i < pages.length; i++) {
-                        let title = pages[i]['title']
-                        let content = pages[i]['content']
-                        let star = pages[i]['star']
-                        let genre = pages[i]['genre']
+          {% if msg %}
+        alert("{{ msg }}")
+        {% endif %}
 
-                        let star_image = star.repeat('👍')
 
-                        let temp_html = ``
-                    }
-                }
-            })
-        }
-
-        function posting() {
+        function save_page() {
             let title = $('#title').val()
-            let content = $("#content").val()
+            let comment = $("#comment").val()
             let genre = $("#genre").val()
-            let star = $("#star").val()
+            let finger = $("#finger").val()
 
             let file = $('#file')[0].files[0]
             let form_data = new FormData()
 
             form_data.append("file_give", file)
             form_data.append("title_give", title)
-            form_data.append("content_give", content)
+            form_data.append("comment_give", comment)
             form_data.append("genre_give", genre)
-            form_data.append("star_give", star)
+            form_data.append("finger_give", finger)
 
             if (genre == '카테고리 선택하기') {
                 alert('카테고리를 설정해 주세요')
-            } else if (star == '--따봉 갯수--') {
+            } else if (finger == '--따봉 갯수--') {
                 alert('따봉을 설정해 주세요')
             } else {
                 $.ajax({
@@ -156,7 +77,6 @@
                     }
                 });
             }
-
 
         }
 
@@ -176,11 +96,30 @@
 </head>
 
 <body>
+
+<div class="titlearea">
+        <div class="mytitle">
+            <div class="logoicon" onclick=window.location.href="/"></div>
+            <nav>
+                <div class="search-box d-flex justify-content-center">
+                    <input id="input-word" class="form-control" style="margin-right: 0.5rem">
+                    <button class="btn btn-light"><i class="fa fa-search"></i></button>
+                </div>
+            <nav>
+                <div class="logout">
+                    <button type="button" class="btn btn-light" onclick="window.location.href = '/write'">작품 추가하기</button>
+                    <button type="button" class="btn btn-light" onclick=window.location.href="/login">로그아웃</button>
+                </div>
+            </nav>
+            </nav>
+        </div>
+    </div>
+
 <div class="wrap">
     <h1>리뷰 작성하기</h1>
     <div class="top">
         <div class="image-box">
-            <div class="image">
+            <div class="image" style="margin: auto">
                 <img src="../static/prev.jpg" id="preview" style="max-width: 100%">
             </div>
             <div>
@@ -198,16 +137,16 @@
                 <label for="genre">카테고리</label>
                 <select class="form-control" id="genre">
                     <option>카테고리 선택하기</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
+                    <option>액션</option>
+                    <option>러브 코미디</option>
+                    <option>공포</option>
+                    <option>스릴러</option>
                 </select>
             </div>
             <div class="good">
-                <label for="star">따봉👍</label>
-                <select class="form-control" id="star">
-                    <option>--따봉 갯수--</option>
+                <label for="finger">따봉👍</label>
+                <select class="form-control" id="finger">
+                    <option>-몇 따봉?-</option>
                     <option>👍</option>
                     <option>👍👍</option>
                     <option>👍👍👍</option>
@@ -219,9 +158,9 @@
     </div>
     <div class="review" id="box">
         <label for="content">리 뷰</label>
-        <textarea class="form-control" id="content" rows="3"
+        <textarea class="form-control" id="comment" rows="3"
                   placeholder="리뷰를 입력하세요"></textarea>
-        <button type="button" class="btn btn-info" onclick="posting()">올리기</button>
+        <button type="button" class="btn btn-info" onclick="save_page()">올리기</button>
     </div>
 </div>
 </body>

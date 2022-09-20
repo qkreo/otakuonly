@@ -1,3 +1,5 @@
+import json
+
 from pymongo import MongoClient
 import jwt
 import datetime
@@ -48,13 +50,12 @@ def sign_in():
          'id': username_receive,
          'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
         }
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256') # .decode('utf-8') 디코드 오류로 삭제
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')#접속 오류 .decode('utf-8')
 
         return jsonify({'result': 'success', 'token': token,'msg':'접속을환영합니다'})
     # 찾지 못하면
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
-
 
 @app.route('/sign_up/save', methods=['POST'])
 def sign_up():
@@ -78,6 +79,71 @@ def check_dup():
     username_receive = request.form['username_give']
     exists = bool(db.users.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
+
+@app.route("/get_posts", methods=['GET'])
+def get_posts():
+    posts = list(db.page.find({}).sort("time", -1))
+
+    for post in posts:
+        post["_id"] = str(post["_id"])
+
+    return jsonify({"get_posts":posts})
+
+@app.route('/write', methods=['GET']) # 게시글 작성
+def write():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"username": payload["id"]})
+        return render_template('write.html', user_info=user_info)
+
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login", msg="먼저 로그인 해 주시기 바랍니다"))
+
+
+@app.route('/page', methods=['POST']) # 게시글 작성
+def save_page():
+        token_receive = request.cookies.get('mytoken')
+        try:
+            payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+            # 포스팅하기
+            user_info = db.users.find_one({"username": payload["id"]})
+            title_receive = request.form['title_give']
+            comment_receive = request.form['comment_give']
+            finger_receive = request.form['finger_give']
+            genre_receive = request.form['genre_give']
+
+            file = request.files["file_give"]
+
+            extension = file.filename.split('.')[-1]
+
+            today = datetime.now()
+            mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+            savetime = today.strftime('%Y-%m-%d')
+
+            filename = f'file-{mytime}'
+
+            save_to = f'static/{filename}.{extension}'
+            file.save(save_to)
+
+            doc = {
+                "username": user_info["username"],
+                'title': title_receive,
+                'comment': comment_receive,
+                'finger': finger_receive,
+                'file': f'{filename}.{extension}',
+                'genre': genre_receive,
+                'time': savetime
+            }
+            db.page.insert_one(doc)
+
+            return jsonify({"result": "success", 'msg': '포스팅 성공'})
+        except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+            return redirect(url_for("home"))
+
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
