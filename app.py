@@ -27,7 +27,7 @@ def home():
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
-        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+        return redirect(url_for("login", msg="먼저 로그인 해 주시기 바랍니다"))
 
 @app.route('/login')
 def login():
@@ -48,7 +48,7 @@ def sign_in():
          'id': username_receive,
          'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
         }
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256') # .decode('utf-8') 디코드 오류로 삭제
 
         return jsonify({'result': 'success', 'token': token,'msg':'접속을환영합니다'})
     # 찾지 못하면
