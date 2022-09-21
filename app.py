@@ -82,6 +82,7 @@ def check_dup():
 
 @app.route("/get_posts", methods=['GET'])
 def get_posts():
+
     posts = list(db.page.find({}).sort("time", -1))
 
     for post in posts:

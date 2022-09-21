@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -9,12 +8,9 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" as="style" crossorigin
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.5/dist/web/static/pretendard.css"/>
-
-
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -25,16 +21,28 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
-
-    <title>너만 오타쿠가 아니야!, 리뷰 작성 페이지</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    {#쿠키이용#}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
-        {# 스타일 시트 불러오기#}
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+    {#구글웹폰트#}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dongle:wght@300&display=swap" rel="stylesheet">
+
+    {# 스타일 시트 불러오기#}
     <link href="{{ url_for('static', filename='otaku.css') }}" rel="stylesheet">
+
+     <title>리뷰 작성 페이지</title>
+    <style>
+        *{
+            font-size: 25px;
+        }
+    </style>
 
 
     <script>
@@ -42,6 +50,12 @@
           {% if msg %}
         alert("{{ msg }}")
         {% endif %}
+
+            function sigh_out() {
+            $.removeCookie('mytoken', { path: '/'});
+            alert('로그아웃!')
+            window.location.href = '/login'
+
 
 
         function save_page() {
@@ -59,9 +73,9 @@
             form_data.append("genre_give", genre)
             form_data.append("finger_give", finger)
 
-            if (genre == '카테고리 선택하기') {
+            if (genre === '카테고리 선택하기') {
                 alert('카테고리를 설정해 주세요')
-            } else if (finger == '--따봉 갯수--') {
+            } else if (finger === '--따봉 갯수--') {
                 alert('따봉을 설정해 주세요')
             } else {
                 $.ajax({
@@ -73,24 +87,25 @@
                     processData: false,
                     success: function (response) {
                         alert(response["msg"])
-                        window.location.reload()
+                        window.location.href="/"
                     }
                 });
             }
 
         }
 
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    document.getElementById('preview').src = e.target.result;
-                };
-                reader.readAsDataURL(input.files[0]);
-            } else {
-                document.getElementById('preview').src = "";
+                function readURL(input) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            document.getElementById('preview').src = e.target.result;
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                    } else {
+                        document.getElementById('preview').src = "";
+                    }
+                }
             }
-        }
 
     </script>
 </head>
@@ -98,32 +113,31 @@
 <body>
 
 <div class="titlearea">
-        <div class="mytitle">
-            <div class="logoicon" onclick=window.location.href="/"></div>
-            <nav>
-                <div class="search-box d-flex justify-content-center">
-                    <input id="input-word" class="form-control" style="margin-right: 0.5rem">
-                    <button class="btn btn-light"><i class="fa fa-search"></i></button>
-                </div>
+    <div class="mytitle">
+        <div class="logoicon" onclick=window.location.href="/"></div>
+        <nav>
+            <div class="search-box d-flex justify-content-center">
+                <input id="input-word" class="form-control" style="margin-right: 0.5rem">
+                <button class="btn btn-light"><i class="fa fa-search"></i></button>
+            </div>
             <nav>
                 <div class="logout">
-                    <button type="button" class="btn btn-light" onclick="window.location.href = '/write'">작품 추가하기</button>
-                    <button type="button" class="btn btn-light" onclick=window.location.href="/login">로그아웃</button>
+                    <button type="button" class="btn btn-light" style="font-family: 'Dongle', sans-serif;font-size: 25px" onclick="sigh_out()">로그아웃</button>
                 </div>
             </nav>
-            </nav>
-        </div>
+        </nav>
     </div>
+</div>
 
-<div class="wrap">
-    <h1>리뷰 작성하기</h1>
+<div class="wrap" style="background-color: navajowhite;">
+    <h1 style="font-family: 'Dongle', sans-serif;font-size: 40px">리뷰 작성하기</h1>
     <div class="top">
         <div class="image-box">
             <div class="image" style="margin: auto">
                 <img src="../static/prev.jpg" id="preview" style="max-width: 100%">
             </div>
             <div>
-                <input type="file" onchange="readURL(this);" id="file">
+                <input type="file" onchange="readURL(this);" id="file" style="font-family: 'Dongle', sans-serif;font-size: 25px">
             </div>
         </div>
 
@@ -160,7 +174,7 @@
         <label for="content">리 뷰</label>
         <textarea class="form-control" id="comment" rows="3"
                   placeholder="리뷰를 입력하세요"></textarea>
-        <button type="button" class="btn btn-info" onclick="save_page()">올리기</button>
+        <button type="button" class="btn btn-info" onclick="save_page()" style="font-family: 'Dongle', sans-serif;font-size: 25px">올리기</button>
     </div>
 </div>
 </body>

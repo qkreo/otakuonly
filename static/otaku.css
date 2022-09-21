@@ -1,330 +1,223 @@
-
-        * {
-            font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-        }
-
-        .wrap {
-            background-color: rgb(255, 255, 255);
-            min-height: 100vh;
-            padding-bottom: 50px;
-        }
-
-        .titlearea {
-            position: relative;
-            transition: background-color 0.4s ease 0s, box-shadow 0.4s ease 0s;
-            background-color: #FFFFFF;
-            box-shadow: 0 1px 0 0 #EEEEEE;
-        }
-
-        .mytitle {
-            /*padding-left: 3.125rem;*/
-            /*padding-right: 3.125rem;*/
-            position: relative;
-            /*display: flex;*/
-            -webkit-box-align: center;
-            align-items: center;
-            height: 97px;
-            width: 100%;
-            color: rgb(255, 255, 255);
-            border-bottom: 1px lightgray solid;
-        }
-
-
-
-        .search-box {
-            width: 50%;
-            margin: 25px auto auto 20px;
-            max-width: 400px;
-            float: left;
-        }
-
-        .logout {
-            float: right;
-            margin-top: 25px;
-            margin-right: 20px;
-        }
-
-        .addanime {
-            float: right;
-            margin-right: 18px;
-            margin-top: 2px;
-        }
-
-        .mycards {
-            margin: 40px 20px 20px 20px;
-        }
-
-        ul {
-            padding-inline-start: 0;
-        }
-
-        a {
-            color: #797979;
-            text-decoration: none;
-            background-color: transparent;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        ol,
-        ul {
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-
-        .animearea {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-        }
-
-        body {
-            background-color: white;
-            background-size: cover;
-            background-position: center;
-            min-height: 100vh;
-        }
-
-        .section {
-            padding: 1rem 1.5rem;
-            max-width: 750px;
-            margin: auto;
-        }
-
-        .is-sparta {
-            color: black !important;
-        }
-        .button.is-sparta {
-            background-color: black;
-            border-color: transparent;
-            color: #fff !important;
-        }
-
-        .button.is-sparta.is-outlined {
-            background-color: transparent;
-            border-color: black;
-            color: black !important;
-        }
-
-        .help {
-            color: black;
+*{
+    font-family: 'Dongle', sans-serif;
 }
-        * {
-            font-family: 'gaegu', cursive;
-        }
 
-        * {
-            font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-        }
+body {
+    background-color: navajowhite;
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+}
 
+.addanime {
+    float: right;
+    margin-right: 18px;
+    margin-top: 2px;
+}
 
-        .titlearea {
-            position: relative;
-            transition: background-color 0.4s ease 0s, box-shadow 0.4s ease 0s;
-            background-color: #FFFFFF;
-            box-shadow: 0 1px 0 0 #EEEEEE;
-        }
+.animearea {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+}
 
-        .mytitle {
-            /*padding-left: 3.125rem;*/
-            /*padding-right: 3.125rem;*/
-            position: relative;
-            /*display: flex;*/
-            -webkit-box-align: center;
-            align-items: center;
-            height: 97px;
-            width: 100%;
-            color: rgb(255, 255, 255);
-            border-bottom: 1px lightgray solid;
-        }
+.a {
+    color: #797979;
+    text-decoration: none;
+    background-color: transparent;
+}
 
+.button.is-sparta {
+    background-color: black;
+    border-color: transparent;
+    color: #fff !important;
+}
 
+.button.is-sparta.is-outlined {
+    background-color: transparent;
+    border-color: black;
+    color: black !important;
+}
 
-        .search-box {
-            width: 50%;
-            margin: 25px auto auto 20px;
-            max-width: 400px;
-            float: left;
-        }
+.titlearea {
+    position: relative;
+    transition: background-color 0.4s ease 0s, box-shadow 0.4s ease 0s;
+    background-color: navajowhite;
+    box-shadow: 0 1px 0 0 #EEEEEE;
+}
 
-        .logout {
-            float: right;
-            margin-top: 25px;
-            margin-right: 20px;
-        }
+.mytitle {
+    /*padding-left: 3.125rem;*/
+    /*padding-right: 3.125rem;*/
+    position: relative;
+    /*display: flex;*/
+    -webkit-box-align: center;
+    align-items: center;
+    height: 97px;
+    width: 100%;
+    color: rgb(255, 255, 255);
+    border-bottom: 1px lightgray solid;
+}
 
+.search-box {
+    width: 50%;
+    margin: 25px auto auto 20px;
+    max-width: 400px;
+    float: left;
+}
 
-        ul {
-            padding-inline-start: 0;
-        }
-
-        a {
-            color: #797979;
-            text-decoration: none;
-            background-color: transparent;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        ol,
-        ul {
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-
-        .animearea {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-        }
-
-        * {
-            font-family: 'Jua', sans-serif;
-            font-size: x-large;
-        }
-
-        .wrap {
-            width: 900px;
-            margin: auto;
-
-            padding-top: 200px;
-        }
-
-        .image {
-            width: 300px;
-            height: 400px;
-
-            margin-right: 200px;
-
-        }
-
-        .top {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .image-box {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .review {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-
-            font-size: large;
-            margin-top: 10px;
-        }
-
-        .review > button {
-            margin-top: 10px;
-            margin-left: 800px;
-        }
-
-        .inputs {
-            width: 400px;
-            height: 400px;
-            margin: auto;
-        }
-
-        .inputs > .title {
-            padding-bottom: 20px;
-        }
-
-        .inputs > .genre {
-            padding-bottom: 20px;
-        }
-
-        * {
-            font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-        }
-
-        .wrap {
-            background-color: rgb(255, 255, 255);
-            min-height: 100vh;
-            padding-bottom: 50px;
-        }
-
-        .titlearea {
-            position: relative;
-            transition: background-color 0.4s ease 0s, box-shadow 0.4s ease 0s;
-            background-color: #FFFFFF;
-            box-shadow: 0 1px 0 0 #EEEEEE;
-        }
-
-        .mytitle {
-            /*padding-left: 3.125rem;*/
-            /*padding-right: 3.125rem;*/
-            position: relative;
-            /*display: flex;*/
-            -webkit-box-align: center;
-            align-items: center;
-            height: 97px;
-            width: 100%;
-            color: rgb(255, 255, 255);
-            border-bottom: 1px lightgray solid;
-        }
-
-        .logoicon {
-            width: 72px;
-            height: 80px;
-
-            background-color: transparent;
-            background-image: url('../static/logo2.jpg');
-
-            background-position: center;
-            background-size: contain;
-            background-repeat: no-repeat;
-
-            margin: 10px 7px 10px 8px;
-
-            cursor: pointer;
-
-            float: left;
-        }
-
-        .search-box {
-            width: 50%;
-            margin: 25px auto auto 20px;
-            max-width: 400px;
-            float: left;
-        }
-
-        .logout {
-            float: right;
-            margin-top: 25px;
-            margin-right: 20px;
-        }
+.mycards {
+    margin: 40px 20px 20px 20px;
+}
 
 
-        ul {
-            padding-inline-start: 0;
-        }
+.section {
+    padding: 1rem 1.5rem;
+    max-width: 750px;
+    margin: auto;
+}
 
-        a {
-            color: #797979;
-            text-decoration: none;
-            background-color: transparent;
-        }
+.is-sparta {
+    color: black !important;
+}
 
-        ul {
-            list-style: none;
-        }
+.help {
+    color: black;
+}
 
-        ol,
-        ul {
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
+.search-box {
+    width: 50%;
+    margin: 25px auto auto 20px;
+    max-width: 400px;
+    float: left;
+}
+
+
+.ul {
+    padding-inline-start: 0;
+    list-style: none;
+}
+
+.ol {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.wrap {
+    width: 900px;
+    margin: auto;
+
+    padding-top: 200px;
+}
+
+.image {
+    width: 300px;
+    height: 400px;
+
+    margin-right: 200px;
+
+}
+
+.top {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.review {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    font-size: large;
+    margin-top: 10px;
+}
+
+.review > button {
+    margin-top: 10px;
+    margin-left: 800px;
+}
+
+.wrap {
+    background-color: rgb(255, 255, 255);
+    min-height: 100vh;
+    padding-bottom: 50px;
+}
+
+.logoicon {
+    width: 72px;
+    height: 80px;
+
+    border-radius: 20px;
+
+    background-color: transparent;
+    background-image: url('../static/logo1.png');
+
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    margin: 10px 7px 10px 8px;
+
+    cursor: pointer;
+
+    float: left;
+}
+
+.search-box {
+    width: 50%;
+    margin: 25px auto auto 20px;
+    max-width: 400px;
+    float: left;
+}
+
+.section {
+    padding: 1rem 1.5rem;
+    max-width: 750px;
+    margin: auto;
+}
+
+.modal-content {
+    width: 600px;
+    max-width: 80%;
+}
+
+.input::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+.inputs {
+    width: 400px;
+    height: 400px;
+    margin: auto;
+}
+
+.inputs > .title {
+    padding-bottom: 20px;
+}
+
+.inputs > .genre {
+    padding-bottom: 20px;
+}
+
+.image img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.logout {
+    float: right;
+    margin-top: 25px;
+    margin-right: 20px;
+}
