@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
-        <!-- Required meta tags -->
+    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -77,8 +77,8 @@
 
         .best {
             /*outline: 1px solid red;*/
-            width: 70%;
-            margin-left: 15%;
+            width: 100%;
+
             background-color: #f9f9f9;
         }
 
@@ -191,6 +191,92 @@
 
     <script>
 
+         function
+    myFunction()
+    {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    window.onclick = function(event)
+    {
+    if (!event.target.matches('.dropbtn')) {
+
+        var
+    dropdowns = document.getElementsByClassName("dropdown-content");
+    var
+    i;
+    for (i = 0; i < dropdowns.length; i++)
+    {
+        var
+    openDropdown = dropdowns[i];
+    if (openDropdown.classList.contains('show'))
+    {
+        openDropdown.classList.remove('show');
+    }
+    }
+    }
+    }
+
+
+    $(document).ready(function () {
+            show_view();
+        });
+
+        function show_view() {
+            $.ajax({
+                type: "GET",
+                url: "/view",
+                data: {},
+                success: function (response) {
+                    let rows = response['view']
+                    for (let i = 0; i < rows.length; i++){
+                        let view = rows[i]['view']
+                        let num = rows[i]['num']
+                        let done = rows[i]['done']
+
+                        let temp_html =``
+                        if (done == 0) {
+                            temp_html = `<li>
+                                        <h2>💟 ${view} </h2>
+<!--                                         <button onclick="done_view(${num})" type="button" class="btn btn-outline-primary">완료!</button>-->
+                                    </li>`
+                        } else {
+                            temp_html = `<li>
+                                             <h2 class="done"> 💟 ${view} </h2>
+                                    </li>`
+                        }
+                        $('#view-list').append(temp_html)
+                    }
+                }
+            });
+        }
+
+        function save_view() {
+            let view = $('#view').val()
+
+            $.ajax({
+                type: "POST",
+                url: "/view",
+                data: {view_give: view},
+                success: function (response) {
+                    alert(response["msg"])
+                    window.location.reload()
+                }
+            });
+        }
+
+        function done_view(num) {
+            $.ajax({
+                type: "POST",
+                url: "/view/done",
+                data: {'num_give': num},
+                success: function (response) {
+                    alert(response["msg"])
+                    window.location.reload()
+                }
+            });
+        }
+
     </script>
 </head>
 
@@ -206,8 +292,13 @@
             </div>
             <nav>
                 <div class="logout">
-                    <button type="button" class="btn btn-light" style="font-family: 'Dongle', sans-serif;font-size: 25px" onclick="window.location.href = '/write'">작품 추가하기</button>    
-                    <button type="button" class="btn btn-light" style="font-family: 'Dongle', sans-serif;font-size: 25px" onclick="sigh_out()">로그아웃</button>
+                    <button type="button" class="btn btn-light"
+                            style="font-family: 'Dongle', sans-serif;font-size: 25px"
+                            onclick="window.location.href = '/write'">작품 추가하기
+                    </button>
+                    <button type="button" class="btn btn-light"
+                            style="font-family: 'Dongle', sans-serif;font-size: 25px" onclick="sigh_out()">로그아웃
+                    </button>
                 </div>
             </nav>
         </nav>
@@ -215,10 +306,9 @@
 </div>
 
 
-
- <div class="alert alert-primary" role="alert"style="font-size:60px;text-align: center">
-     {{ word }}
- </div>
+<div class="alert alert-primary" role="alert" style="font-size:60px;text-align: center">
+    {{ word }}
+</div>
 <div class="img">
     {% for review in reviews %}
     <img src="/static/{{ review.file }}">
@@ -228,10 +318,12 @@
 <div class="intro" id="review-box">
     {% for review in reviews %}
     <button type="button" class="btn btn-warning">{{ review.genre }}</button>
-    <button type="button" class="btn btn-success"style="font-family: 'Dongle', sans-serif;">{{ review.finger }}</button>
-    <p  style="background-color: white;font-size: 30px"><span style="font-weight:1000;">소개 </span>: {{ review.comment }}</p>
+    <button type="button" class="btn btn-success" style="font-family: 'Dongle', sans-serif;">{{ review.finger }}
+    </button>
+    <p style="background-color: white;font-size: 30px"><span style="font-weight:1000;">소개 </span>: {{ review.comment }}
+    </p>
     {% endfor %}
-</div>
+
 
 <hr class="hr2">
 <div class="best">
@@ -239,7 +331,7 @@
     초롱이 <span style="font-size: 12px;">2022.09.19</span><br><br>
     지브리는 전원 배경을 엄청 잘 표현한다. 나무나 풀, 구름, 노을. 빛에 따라 시간을 표현하는 방식. 그림도 풍성해보여서 예쁘다. 지브리 애니메이션만 보고나면 나의 전원생활을 상상해본다.
     토토로의 내용은 우리들의 동심을 표현한다. 나도 어렸을때 곰과 친구가 되면 어떨까하는 생각과 동물들과 얘기나누고 싶은 생각을 많이했다. 사츠키와 메이도 상상했던건 아닐까? <br><br>
-
+</div>
 
     <button onclick="myFunction()" class="dropbtn"><span style="font-size: 14px;">답글 2개🔽</span></button>
     <div id="myDropdown" class="dropdown-content">
@@ -258,33 +350,13 @@
 <div class="mybox00">
     <div class="mybox" style="background-color: white">
         <div class="mybucket">
-            <input id="project01" class="form-control" type="text" placeholder="리뷰를 남겨주세요." >
-            <button onclick="save_project01()" type="button" class="btn btn-outline-primary">등록하기</button>
+            <input id="view" class="form-control" type="text" placeholder="리뷰를 남겨주세요.">
+            <button onclick="save_view()" type="button" class="btn btn-outline-primary">등록하기</button>
         </div>
     </div>
-    <div class="mybox" id="project01-list" style="background-color: white;>
+    <div class="mybox" id="view-list" style="background-color: white;" >
     </div>
-</div>
-
-
-<hr class="hr2">
-
-<!--    <div class="btn00">-->
-<!--            <div class="btn1">-->
-<!--            <button type="button" class="btn btn-success">최신순</button>-->
-<!--            <button type="button" class="btn btn-outline-success">추천수</button>-->
-<!--            </div>-->
-<!--                <li>-->
-<!--                    춘식이 <span style="font-size: 10px;"> 2022.09.19 </span><br>-->
-<!--                    재밌어요~<br>-->
-<!--                    <span style="font-size: 14px;"> 답글 0개🔽 </span>-->
-<!--                </li><br>-->
-<!--                 <li>-->
-<!--                    라이언<span style="font-size: 10px;"> 2022.08.19 </span><br>-->
-<!--                    꼭 봐야지!<br>-->
-<!--                    <span style="font-size: 14px;"> 답글 0개🔽 </span>-->
-<!--                </li>-->
-<!--    </div>-->
+    </div>
 
 </body>
 </html>
