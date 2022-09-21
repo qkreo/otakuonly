@@ -144,7 +144,7 @@ def save_page():
         except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
             return redirect(url_for("home"))
 
-@app.route("/project01/<title>")
+@app.route("/view/<title>")
 def view_page(title):
     token_receive = request.cookies.get('mytoken')
     try:
