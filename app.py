@@ -8,6 +8,9 @@ from flask import Flask, render_template, jsonify, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
 
+import certifi
+ca = certifi.where()
+
 
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -15,7 +18,7 @@ app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 
 SECRET_KEY = 'SPARTA'
 
-client = MongoClient("mongodb+srv://qkero407:Qvr1Wt574O3CdofS@cluster0.iao4kcr.mongodb.net/?retryWrites=true&w=majority")
+client = MongoClient("mongodb+srv://qkero407:Qvr1Wt574O3CdofS@cluster0.iao4kcr.mongodb.net/?retryWrites=true&w=majority",tlsCAFile=ca)
 db = client.dbsparta
 
 @app.route('/')
@@ -80,6 +83,33 @@ def check_dup():
     exists = bool(db.users.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
 
+
+@app.route('/update_profile', methods=['POST'])
+def save_img():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        username = payload["id"]
+        name_receive = request.form["name_give"]
+        about_receive = request.form["about_give"]
+        new_doc = {
+            "profile_name": name_receive,
+            "profile_info": about_receive
+        }
+        if 'file_give' in request.files:
+            file = request.files["file_give"]
+            filename = secure_filename(file.filename)
+            extension = filename.split(".")[-1]
+            file_path = f"profile_pics/{username}.{extension}"
+            file.save("./static/"+file_path)
+            new_doc["profile_pic"] = filename
+            new_doc["profile_pic_real"] = file_path
+        db.users.update_one({'username': payload['id']}, {'$set':new_doc})
+        return jsonify({"result": "success", 'msg': '프로필을 업데이트했습니다.'})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
+
 @app.route("/get_posts", methods=['GET'])
 def get_posts():
 
@@ -89,6 +119,7 @@ def get_posts():
         post["_id"] = str(post["_id"])
 
     return jsonify({"get_posts":posts})
+
 
 @app.route('/write', methods=['GET']) # 게시글 작성
 def write():
@@ -130,7 +161,7 @@ def save_page():
             file.save(save_to)
 
             doc = {
-                "username": user_info["username"],
+                "username": user_info["profile_name"],
                 'title': title_receive,
                 'comment': comment_receive,
                 'finger': finger_receive,
@@ -150,15 +181,15 @@ def view_page(title):
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.users.find_one({"username": payload["id"]})
+
         reviews = list(db.page.find({'title':title}, {"_id": False}))
+
         return render_template('view.html', user_info=user_info,word=title,reviews=reviews)
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login", msg="먼저 로그인 해 주시기 바랍니다"))
-
-# view.html
 
 @app.route("/view", methods=["POST"])
 def view_post():
@@ -175,7 +206,7 @@ def view_post():
 
     db.view.insert_one(doc)
 
-    return jsonify({'msg': '등록하기'})
+    return jsonify({'msg': '등록완료'})
 
 
 @app.route("/view/done", methods=["POST"])
@@ -189,8 +220,6 @@ def view_done():
 def view_get():
     view_list = list(db.view.find({}, {'_id': False}))
     return jsonify({'view': view_list})
- 
-
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

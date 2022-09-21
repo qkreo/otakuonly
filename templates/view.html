@@ -13,6 +13,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
+    <meta property="og:title" content="너만 오타쿠가 아니야!"/>
+    <meta property="og:description" content="애니메이션 리뷰를 남겨보아요"/>
+    <meta property="og:image" content="{{ url_for('static', filename='logo1.png') }}"/>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='logo1.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='logo1.png') }}" type="image/x-icon">
 
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -49,7 +54,6 @@
 
     <title>너만오타쿠가아니야!</title>
 
-
     <style>
 
         .img {
@@ -77,8 +81,8 @@
 
         .best {
             /*outline: 1px solid red;*/
-            width: 100%;
-
+            width: 70%;
+            margin-left: 15%;
             background-color: #f9f9f9;
         }
 
@@ -191,34 +195,12 @@
 
     <script>
 
-         function
-    myFunction()
-    {
-        document.getElementById("myDropdown").classList.toggle("show");
-    }
-
-    window.onclick = function(event)
-    {
-    if (!event.target.matches('.dropbtn')) {
-
-        var
-    dropdowns = document.getElementsByClassName("dropdown-content");
-    var
-    i;
-    for (i = 0; i < dropdowns.length; i++)
-    {
-        var
-    openDropdown = dropdowns[i];
-    if (openDropdown.classList.contains('show'))
-    {
-        openDropdown.classList.remove('show');
-    }
-    }
-    }
-    }
+        {% if msg %}
+            alert("{{ msg }}")
+        {% endif %}
 
 
-    $(document).ready(function () {
+        $(document).ready(function () {
             show_view();
         });
 
@@ -229,22 +211,13 @@
                 data: {},
                 success: function (response) {
                     let rows = response['view']
-                    for (let i = 0; i < rows.length; i++){
+                    for (let i = 0; i < rows.length; i++) {
                         let view = rows[i]['view']
-                        let num = rows[i]['num']
-                        let done = rows[i]['done']
 
-                        let temp_html =``
-                        if (done == 0) {
-                            temp_html = `<li>
-                                        <h2>💟 ${view} </h2>
-<!--                                         <button onclick="done_view(${num})" type="button" class="btn btn-outline-primary">완료!</button>-->
-                                    </li>`
-                        } else {
-                            temp_html = `<li>
-                                             <h2 class="done"> 💟 ${view} </h2>
-                                    </li>`
-                        }
+                        let temp_html = `
+                         <li>
+                        <h2 style="font-size: 30px">💟 ${view} </h2>`
+
                         $('#view-list').append(temp_html)
                     }
                 }
@@ -259,20 +232,13 @@
                 url: "/view",
                 data: {view_give: view},
                 success: function (response) {
-                    alert(response["msg"])
-                    window.location.reload()
-                }
-            });
-        }
+                    if (view == "") {
+                        alert("댓글을 입력해 주세요.")
+                    } else {
+                        alert(response["msg"])
+                        window.location.reload()
+                    }
 
-        function done_view(num) {
-            $.ajax({
-                type: "POST",
-                url: "/view/done",
-                data: {'num_give': num},
-                success: function (response) {
-                    alert(response["msg"])
-                    window.location.reload()
                 }
             });
         }
@@ -292,6 +258,7 @@
             </div>
             <nav>
                 <div class="logout">
+                    <a style="font-size: 40px;color: black;margin-right: 20px">{{ user_info.profile_name }}님 환영합니다!</a>
                     <button type="button" class="btn btn-light"
                             style="font-family: 'Dongle', sans-serif;font-size: 25px"
                             onclick="window.location.href = '/write'">작품 추가하기
@@ -311,52 +278,35 @@
 </div>
 <div class="img">
     {% for review in reviews %}
-    <img src="/static/{{ review.file }}">
+        <img src="/static/{{ review.file }}">
     {% endfor %}
 </div>
 
 <div class="intro" id="review-box">
     {% for review in reviews %}
-    <button type="button" class="btn btn-warning">{{ review.genre }}</button>
-    <button type="button" class="btn btn-success" style="font-family: 'Dongle', sans-serif;">{{ review.finger }}
-    </button>
-    <p style="background-color: white;font-size: 30px"><span style="font-weight:1000;">소개 </span>: {{ review.comment }}
-    </p>
-    {% endfor %}
+        <button type="button" class="btn btn-info">{{ user_info.profile_name }}</button>
+        <button type="button" class="btn btn-warning">{{ review.genre }}</button>
+        <button type="button" class="btn btn-success"
+                style="font-family: 'Dongle', sans-serif;">{{ review.finger }}</button>
 
+        <p style="background-color: white;font-size: 30px;margin-top: 20px;border-radius: 5px"><span
+                style="font-weight:1000;padding-left:20px">코멘트: </span> {{ review.comment }}</p>
+    {% endfor %}
+</div>
 
 <hr class="hr2">
-<div class="best">
-    <span style="font-size: 15px; color:red; font-weight:1000;"> best댓글</span>
-    초롱이 <span style="font-size: 12px;">2022.09.19</span><br><br>
-    지브리는 전원 배경을 엄청 잘 표현한다. 나무나 풀, 구름, 노을. 빛에 따라 시간을 표현하는 방식. 그림도 풍성해보여서 예쁘다. 지브리 애니메이션만 보고나면 나의 전원생활을 상상해본다.
-    토토로의 내용은 우리들의 동심을 표현한다. 나도 어렸을때 곰과 친구가 되면 어떨까하는 생각과 동물들과 얘기나누고 싶은 생각을 많이했다. 사츠키와 메이도 상상했던건 아닐까? <br><br>
-</div>
-
-    <button onclick="myFunction()" class="dropbtn"><span style="font-size: 14px;">답글 2개🔽</span></button>
-    <div id="myDropdown" class="dropdown-content">
-        <a href="#">➡레이 <span style="font-size: 13px; color:gray"> 2022.09.19 15:32</span></a>
-        &emsp;&ensp; 오오오~~
-        <hr class="hr3">
-        <a href="#">➡제프 <span style="font-size: 13px; color:gray"> 2022.09.19 14:30</span></a>
-        &emsp;&emsp;공감합니다.
-        <hr class="hr3">
-        <a href="#">➡모닝 <span style="font-size: 13px; color:gray"> 2022.09.18 23:32</span></a>
-        &emsp;&emsp;맞아요~~
-    </div>
-</div>
-
 
 <div class="mybox00">
-    <div class="mybox" style="background-color: white">
+    <div class="mybox" style="background-color: white;border-radius: 10px">
         <div class="mybucket">
-            <input id="view" class="form-control" type="text" placeholder="리뷰를 남겨주세요.">
+            <input id="view" class="form-control" type="text" placeholder="댓글을 남겨주세요.">
             <button onclick="save_view()" type="button" class="btn btn-outline-primary">등록하기</button>
         </div>
     </div>
-    <div class="mybox" id="view-list" style="background-color: white;" >
+    <div class="mybox" id="view-list" style="background-color: white;border-radius: 10px">
     </div>
-    </div>
+</div>
+
 
 </body>
 </html>

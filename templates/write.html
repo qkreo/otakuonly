@@ -11,6 +11,11 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" as="style" crossorigin
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.5/dist/web/static/pretendard.css"/>
+    <meta property="og:title" content="너만 오타쿠가 아니야!"/>
+    <meta property="og:description" content="애니메이션 리뷰를 남겨보아요"/>
+    <meta property="og:image" content="{{ url_for('static', filename='logo1.png') }}"/>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='logo1.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='logo1.png') }}" type="image/x-icon">
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -37,9 +42,9 @@
     {# 스타일 시트 불러오기#}
     <link href="{{ url_for('static', filename='otaku.css') }}" rel="stylesheet">
 
-     <title>리뷰 작성 페이지</title>
+    <title>너만오타쿠가아니야!</title>
     <style>
-        *{
+        * {
             font-size: 25px;
         }
     </style>
@@ -47,15 +52,15 @@
 
     <script>
 
-          {% if msg %}
-        alert("{{ msg }}")
+        {% if msg %}
+            alert("{{ msg }}")
         {% endif %}
 
-            function sigh_out() {
-                $.removeCookie('mytoken', {path: '/'});
-                alert('로그아웃!')
-                window.location.href = '/login'
-            }
+        function sigh_out() {
+            $.removeCookie('mytoken', {path: '/'});
+            alert('로그아웃!')
+            window.location.href = '/login'
+        }
 
 
         function save_page() {
@@ -87,24 +92,24 @@
                     processData: false,
                     success: function (response) {
                         alert(response["msg"])
-                        window.location.href="/"
+                        window.location.href = "/"
                     }
                 });
             }
 
         }
 
-                function readURL(input) {
-                    if (input.files && input.files[0]) {
-                        var reader = new FileReader();
-                        reader.onload = function (e) {
-                            document.getElementById('preview').src = e.target.result;
-                        };
-                        reader.readAsDataURL(input.files[0]);
-                    } else {
-                        document.getElementById('preview').src = "";
-                    }
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('preview').src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                document.getElementById('preview').src = "";
             }
+        }
 
     </script>
 </head>
@@ -121,7 +126,10 @@
             </div>
             <nav>
                 <div class="logout">
-                    <button type="button" class="btn btn-light" style="font-family: 'Dongle', sans-serif;font-size: 25px" onclick="sigh_out()">로그아웃</button>
+                    <a style="font-size: 40px;color: black;margin-right: 20px">{{ user_info.profile_name }}님 환영합니다!</a>
+                    <button type="button" class="btn btn-light"
+                            style="font-family: 'Dongle', sans-serif;font-size: 25px" onclick="sigh_out()">로그아웃
+                    </button>
                 </div>
             </nav>
         </nav>
@@ -136,7 +144,8 @@
                 <img src="../static/prev.png" id="preview" style="max-width: 100%">
             </div>
             <div>
-                <input type="file" onchange="readURL(this);" id="file" style="font-family: 'Dongle', sans-serif;font-size: 25px">
+                <input type="file" onchange="readURL(this);" id="file"
+                       style="font-family: 'Dongle', sans-serif;font-size: 25px">
             </div>
         </div>
 
@@ -173,7 +182,9 @@
         <label for="content">리 뷰</label>
         <textarea class="form-control" id="comment" rows="3"
                   placeholder="리뷰를 입력하세요"></textarea>
-        <button type="button" class="btn btn-info" onclick="save_page()" style="font-family: 'Dongle', sans-serif;font-size: 25px">올리기</button>
+        <button type="button" class="btn btn-info" onclick="save_page()"
+                style="font-family: 'Dongle', sans-serif;font-size: 25px">올리기
+        </button>
     </div>
 </div>
 </body>
