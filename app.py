@@ -158,7 +158,38 @@ def view_page(title):
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login", msg="먼저 로그인 해 주시기 바랍니다"))
 
+# view.html
 
+@app.route("/view", methods=["POST"])
+def view_post():
+    view_receive = request.form['view_give']
+
+    view_list = list(db.view.find({}, {'_id': False}))
+    count = len(view_list) + 1
+
+    doc = {
+        'num': count,
+        'view': view_receive,
+        'done': 0
+    }
+
+    db.view.insert_one(doc)
+
+    return jsonify({'msg': '등록하기'})
+
+
+@app.route("/view/done", methods=["POST"])
+def view_done():
+    num_receive = request.form["num_give"]
+    db.view.update_one({'num': int(num_receive)}, {'$set': {'done': 1}})
+    return jsonify({'msg': '작성 완료'})
+
+
+@app.route("/view", methods=["GET"])
+def view_get():
+    view_list = list(db.view.find({}, {'_id': False}))
+    return jsonify({'view': view_list})
+ 
 
 
 if __name__ == '__main__':
