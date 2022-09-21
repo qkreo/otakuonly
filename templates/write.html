@@ -52,10 +52,10 @@
         {% endif %}
 
             function sigh_out() {
-            $.removeCookie('mytoken', { path: '/'});
-            alert('로그아웃!')
-            window.location.href = '/login'
-
+                $.removeCookie('mytoken', {path: '/'});
+                alert('로그아웃!')
+                window.location.href = '/login'
+            }
 
 
         function save_page() {
@@ -104,7 +104,6 @@
                     } else {
                         document.getElementById('preview').src = "";
                     }
-                }
             }
 
     </script>
@@ -134,7 +133,7 @@
     <div class="top">
         <div class="image-box">
             <div class="image" style="margin: auto">
-                <img src="../static/prev.jpg" id="preview" style="max-width: 100%">
+                <img src="../static/prev.png" id="preview" style="max-width: 100%">
             </div>
             <div>
                 <input type="file" onchange="readURL(this);" id="file" style="font-family: 'Dongle', sans-serif;font-size: 25px">

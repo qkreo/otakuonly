@@ -144,6 +144,21 @@ def save_page():
         except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
             return redirect(url_for("home"))
 
+@app.route("/project01/<title>")
+def view_page(title):
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"username": payload["id"]})
+        reviews = list(db.page.find({'title':title}, {"_id": False}))
+        return render_template('view.html', user_info=user_info,word=title,reviews=reviews)
+
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login", msg="먼저 로그인 해 주시기 바랍니다"))
+
+
 
 
 if __name__ == '__main__':
