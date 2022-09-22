@@ -107,19 +107,20 @@
                         let username = rows[i]['username']
 
                         let temp_html = `
-                        <div class="col-4" id="card${title}">
+                        <div class="col-4"  style="border-radius: 200px" id="card${title}">
                             <a href="/view/${title}" >
                             <div class="card">
                               <img src="../static/${img}"="card-img-top" alt="...">
-                              <div class="card-body">
-                                <div class="alert alert-primary" role="alert" style="font-size:35px ;font-weight: bold" id="highlightarea">
+                              <div class="card-body" id="card-body">
+                                <div class="alert alert-primary" role="alert" style="font-size:30px ;font-weight: bold" id="highlightarea">
                                      ${title}
                                     </div>
-                                <button type="button" class="btn btn-warning" style="font-family: 'Dongle', sans-serif;font-size: 25px;">${genre}</button>
-                                    <button type="button" class="btn btn-success"style="font-family: 'Dongle', sans-serif;">${finger}</button>
+                                <button type="button" class="btn btn-warning" style="font-family: 'JSongMyung-Regular-KO';font-size: 20px;">${genre}</button>
+                                    <button type="button" class="btn btn-success" style="font-family: 'JSongMyung-Regular-KO';">${finger}</button>
                                     <p class="mycomment"></p>
-                                    <p style="font-family: 'Dongle', sans-serif;font-size: 20px">작성:${username}</p>
-                                    <p style="font-family: 'Dongle', sans-serif;font-size: 20px">${time}</p>
+<br>
+                                    <p style="font-family: 'JSongMyung-Regular-KO';font-size: 15px">작성:${username}</p>
+                                    <p style="font-family: 'JSongMyung-Regular-KO';font-size: 20px">${time}</p>
                               </div>
                             </div>
                             </a>
@@ -143,16 +144,17 @@
         function find_title() {
         let title = $("#input-word").val().toLowerCase();
         if (title == "") {
-                    // 빈 문자열이면 얼럿
+            // 빈 문자열이면 얼럿
             alert("Plz input something first😌")
             return
         }
         if (post_list.includes(title)) {
-                    // 리스트에 있으면 하이라이트
+            // 리스트에 있으면 하이라이트
             $(`#card${title}`).addClass('highlight').siblings().removeClass('highlight');
             $(`#card${title}`)[0].scrollIntoView();
         } else {
-                    // 리스트에 없으면 상세 페이지로
+            // 리스트에 없으면 상세 페이지로
+            alert("제목을 찾을 수 없어요😭")
             window.location.href = '/'
         }
     }
@@ -172,6 +174,7 @@
             <input id="input-word" class="form-control" style="margin-right: 0.5rem">
             <button class="btn btn-light" onclick="find_title()"><i class="fa fa-search"></i></button>
         </div>
+
         <div class="logout">
                 <span class="icon is-small"><i class="fa fa-pencil" aria-hidden="true"
                                                onclick='$("#modal-edit").addClass("is-active")'></i></span>
@@ -239,19 +242,20 @@
                 <button class="modal-close is-large" aria-label="close"
                         onclick='$("#modal-edit").removeClass("is-active")'></button>
             </div>
+
             <a onclick='$("#modal-edit").addClass("is-active")'
-               style="font-size: 30px;color: black;margin-right: 20px">{{ user_info.profile_name }}님 반가워요😎</a>
-            <button type="button" class="btn btn-light" style="font-family: 'Dongle', sans-serif;font-size: 25px"
+               style="font-size: 25px;color: black;margin-right: 20px">{{ user_info.profile_name }}님 반가워요😎</a>
+            <button type="button" class="btn btn-light" style="font-family: 'JSongMyung-Regular-KO';font-size: 17px"
                     onclick="window.location.href = '/write'">작품 추가하기
             </button>
-            <button type="button" class="btn btn-light" style="font-family: 'Dongle', sans-serif;font-size: 25px"
-                    onclick="sigh_out()">로그아웃
+            <button type="button" class="btn btn-light" style="font-family: 'JSongMyung-Regular-KO';font-size: 17px"
+                    onclick="sigh_out() ">로그아웃
             </button>
         </div>
     </div>
 </div>
 
-<div class="row row-cols-2 row-cols-md-2 g-4" id="page_box">
+<div class="row row-cols-2 row-cols-md-2 g-4" id="page_box" style="padding-top: 15px; padding-bottom: 15px;">
 
 </div>
 

@@ -56,6 +56,35 @@
             alert("{{ msg }}")
         {% endif %}
 
+
+        function update_profile() {
+            let name = $('#input-name').val()
+            let file = $('#input-pic')[0].files[0]
+            let about = $("#textarea-about").val()
+            let form_data = new FormData()
+            form_data.append("file_give", file)
+            form_data.append("name_give", name)
+            form_data.append("about_give", about)
+            console.log(name, file, about, form_data)
+
+            $.ajax({
+                type: "POST",
+                url: "/update_profile",
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        alert(response["msg"])
+                        window.location.reload()
+
+                    }
+                }
+            });
+        }
+
+
         function sigh_out() {
             $.removeCookie('mytoken', {path: '/'});
             alert('로그아웃!')
@@ -78,9 +107,9 @@
             form_data.append("genre_give", genre)
             form_data.append("finger_give", finger)
 
-            if (genre === '카테고리 선택하기') {
+            if (genre == null) {
                 alert('카테고리를 설정해 주세요')
-            } else if (finger === '--따봉 갯수--') {
+            } else if (finger == null) {
                 alert('따봉을 설정해 주세요')
             } else {
                 $.ajax({
@@ -119,33 +148,100 @@
 <div class="titlearea">
     <div class="mytitle">
         <div class="logoicon" onclick=window.location.href="/"></div>
-        <nav>
             <div class="search-box d-flex justify-content-center">
                 <input id="input-word" class="form-control" style="margin-right: 0.5rem">
                 <button class="btn btn-light"><i class="fa fa-search"></i></button>
             </div>
-            <nav>
-                <div class="logout">
-                    <a style="font-size: 40px;color: black;margin-right: 20px">{{ user_info.profile_name }}님 환영합니다!</a>
-                    <button type="button" class="btn btn-light"
-                            style="font-family: 'Dongle', sans-serif;font-size: 25px" onclick="sigh_out()">로그아웃
-                    </button>
+            <div class="modal" id="modal-edit">
+                <div class="modal-background" onclick='$("#modal-edit").removeClass("is-active")'></div>
+                <div class="modal-content">
+                    <div class="box">
+                        <article class="media">
+                            <div class="media-content">
+                                <div class="field">
+                                    <label class="label" for="input-name">이름</label>
+
+                                    <p class="control">
+
+                                        <input id="input-name" class="input"
+                                               placeholder="닉네임 설정" value="{{ user_info.profile_name }}">
+                                    </p>
+                                </div>
+                                <div class="field">
+                                    <label class="label" for="input-pic">프로필 사진</label>
+
+                                    <div class="control is-expanded">
+                                        <div class="file has-name">
+                                            <label class="file-label" style="width:100%">
+                                                <input id="input-pic" class="file-input" type="file"
+                                                       name="resume">
+                                                <span class="file-cta"><span class="file-icon"><i
+                                                        class="fa fa-upload"></i></span>
+                                <span class="file-label">파일 선택</span>
+                            </span>
+                                                <span id="file-name" class="file-name"
+                                                      style="width:100%;max-width:100%">{{ user_info.profile_pic }}</span>
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label" for="textarea-about">나는 누구?</label>
+
+                                    <p class="control">
+
+                        <textarea id="textarea-about" class="textarea"
+                                  placeholder="자기소개하기">{{ user_info.profile_info }}</textarea>
+                                    </p>
+                                </div>
+                                <nav class="level is-mobile">
+                                    <div class="level-left">
+
+                                    </div>
+                                    <div class="level-right">
+                                        <div class="level-item">
+                                            <a class="button is-sparta" onclick="update_profile()">업데이트</a>
+                                        </div>
+                                        <div class="level-item">
+                                            <a class="button is-sparta is-outlined"
+                                               onclick='$("#modal-edit").removeClass("is-active")'>취소</a>
+                                        </div>
+                                    </div>
+                                </nav>
+                            </div>
+                        </article>
+                    </div>
                 </div>
-            </nav>
-        </nav>
+                <button class="modal-close is-large" aria-label="close"
+                        onclick='$("#modal-edit").removeClass("is-active")'></button>
+            </div>
+         <div class="logout">
+           <a onclick='$("#modal-edit").addClass("is-active")'
+               style="font-size: 25px;color: black;margin-right: 20px">{{ user_info.profile_name }}님 반가워요😎</a>
+            <button type="button" class="btn btn-light" style="font-family: 'JSongMyung-Regular-KO';font-size: 17px"
+                    onclick="window.location.href = '/write'">작품 추가하기
+            </button>
+            <button type="button" class="btn btn-light" style="font-family: 'JSongMyung-Regular-KO';font-size: 17px"
+                    onclick="sigh_out() ">로그아웃
+            </button>
+          </div>
     </div>
 </div>
 
-<div class="wrap" style="background-color: navajowhite;">
-    <h1 style="font-family: 'Dongle', sans-serif;font-size: 40px">리뷰 작성하기</h1>
+{#<div class="wrap" style="background-color: navajowhite;">#}
+<br>
+    <h1 style="font-family: 'JSongMyung-Regular-KO';font-size: 40px; margin: auto;">　리뷰 작성하기</h1>
     <div class="top">
-        <div class="image-box">
+
+        <div class="image-box" style="margin-top:15px;background-color:navajowhite" >
             <div class="image" style="margin: auto">
-                <img src="../static/prev.png" id="preview" style="max-width: 100%">
+                <img src="../static/save_icon.png" id="preview"  class="imagearea">
             </div>
             <div>
+                <br>
                 <input type="file" onchange="readURL(this);" id="file"
-                       style="font-family: 'Dongle', sans-serif;font-size: 25px">
+                       style="font-family: 'JSongMyung-Regular-KO';font-size: 25px; padding-left: 20px">
             </div>
         </div>
 
@@ -158,17 +254,19 @@
             <div class="genre">
                 <label for="genre">카테고리</label>
                 <select class="form-control" id="genre">
-                    <option>카테고리 선택하기</option>zz
+                 <option value="" disabled selected>카테고리 선택하기</option>
+                    <option>스포츠</option>
                     <option>액션</option>
                     <option>러브 코미디</option>
                     <option>공포</option>
                     <option>스릴러</option>
                 </select>
             </div>
+
             <div class="good">
                 <label for="finger">따봉👍</label>
                 <select class="form-control" id="finger">
-                    <option>-몇 따봉?-</option>
+                    <option value="" disabled selected>몇 따봉?</option>
                     <option>👍</option>
                     <option>👍👍</option>
                     <option>👍👍👍</option>
@@ -178,15 +276,15 @@
             </div>
         </div>
     </div>
-    <div class="review" id="box">
+    <div class="review" id="box" style="margin-top: 20px;">
         <label for="content">리 뷰</label>
         <textarea class="form-control" id="comment" rows="3"
-                  placeholder="리뷰를 입력하세요"></textarea>
+                  placeholder="리뷰를 입력하세요" style="height: 150px"></textarea>
         <button type="button" class="btn btn-info" onclick="save_page()"
-                style="font-family: 'Dongle', sans-serif;font-size: 25px">올리기
+                style="font-family: 'JSongMyung-Regular-KO'; font-size: 25px" >올리기
         </button>
+        <br>
     </div>
-</div>
 </body>
 
 </html>

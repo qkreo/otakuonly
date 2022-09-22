@@ -1,5 +1,12 @@
+@font-face {
+    font-family: 'JSongMyung-Regular-KO';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/JSongMyung-Regular-KO.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
-    font-family: 'Dongle', sans-serif;
+   font-family: 'JSongMyung-Regular-KO';
 }
 
 a {
@@ -15,8 +22,16 @@ body {
     min-height: 100vh;
 }
 
+.button {
+    padding-bottom: 2px;
+}
+
+.card-body.card-body {
+    padding: 15px;
+}
+
 .highlight {
-    background-color: #e8344e;
+    background-color: papayawhip;
     color: white;
 }
 
@@ -125,7 +140,6 @@ body {
 }
 
 .image {
-    width: 300px;
     height: 400px;
 
     margin-right: 200px;
@@ -157,8 +171,7 @@ body {
 }
 
 .review > button {
-    margin-top: 10px;
-    margin-left: 800px;
+    margin-top: 13px;
 }
 
 .wrap {
@@ -168,8 +181,8 @@ body {
 }
 
 .logoicon {
-    width: 72px;
-    height: 80px;
+    width: 100px;
+    height: 87px;
 
     border-radius: 20px;
 
@@ -231,6 +244,38 @@ body {
 
 .logout {
     float: right;
-    margin-top: 25px;
-    margin-right: 20px;
 }
+
+.hr2 {
+    margin-bottom: 12px;
+    margin-top: 12px;
+}
+
+input::placeholder {
+  font-family: 'JSongMyung-Regular-KO';
+}
+
+textarea::placeholder {
+  font-family: 'JSongMyung-Regular-KO';
+}
+
+.form-control{
+  font-family: 'JSongMyung-Regular-KO';
+}
+
+.buttons {
+    margin: 0 auto;
+}
+
+.imagearea {
+    background-color: navajowhite;
+}
+
+.image {
+    background-color: navajowhite;
+}
+
+.col-4 {
+    padding-bottom: 15px;
+}
+

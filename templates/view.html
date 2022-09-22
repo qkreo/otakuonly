@@ -200,6 +200,36 @@
         {% endif %}
 
 
+
+        function update_profile() {
+            let name = $('#input-name').val()
+            let file = $('#input-pic')[0].files[0]
+            let about = $("#textarea-about").val()
+            let form_data = new FormData()
+            form_data.append("file_give", file)
+            form_data.append("name_give", name)
+            form_data.append("about_give", about)
+            console.log(name, file, about, form_data)
+
+            $.ajax({
+                type: "POST",
+                url: "/update_profile",
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        alert(response["msg"])
+                        window.location.reload()
+
+                    }
+                }
+            });
+        }
+
+
+
         $(document).ready(function () {
             show_view();
         });
@@ -251,47 +281,117 @@
 <div class="titlearea">
     <div class="mytitle">
         <div class="logoicon" onclick=window.location.href="/"></div>
-        <nav>
-            <div class="search-box d-flex justify-content-center">
-                <input id="input-word" class="form-control" style="margin-right: 0.5rem">
-                <button class="btn btn-light"><i class="fa fa-search"></i></button>
-            </div>
-            <nav>
-                <div class="logout">
-                    <a style="font-size: 40px;color: black;margin-right: 20px">{{ user_info.profile_name }}님 환영합니다!</a>
-                    <button type="button" class="btn btn-light"
-                            style="font-family: 'Dongle', sans-serif;font-size: 25px"
-                            onclick="window.location.href = '/write'">작품 추가하기
-                    </button>
-                    <button type="button" class="btn btn-light"
-                            style="font-family: 'Dongle', sans-serif;font-size: 25px" onclick="sigh_out()">로그아웃
-                    </button>
+        <div class="search-box d-flex justify-content-center">
+            <input id="input-word" class="form-control" style="margin-right: 0.5rem">
+            <button class="btn btn-light"><i class="fa fa-search"></i></button>
+        </div>
+        <div class="modal" id="modal-edit">
+                <div class="modal-background" onclick='$("#modal-edit").removeClass("is-active")'></div>
+                <div class="modal-content">
+                    <div class="box">
+                        <article class="media">
+                            <div class="media-content">
+                                <div class="field">
+                                    <label class="label" for="input-name">이름</label>
+
+                                    <p class="control">
+
+                                        <input id="input-name" class="input"
+                                               placeholder="닉네임 설정" value="{{ user_info.profile_name }}">
+                                    </p>
+                                </div>
+                                <div class="field">
+                                    <label class="label" for="input-pic">프로필 사진</label>
+
+                                    <div class="control is-expanded">
+                                        <div class="file has-name">
+                                            <label class="file-label" style="width:100%">
+                                                <input id="input-pic" class="file-input" type="file"
+                                                       name="resume">
+                                                <span class="file-cta"><span class="file-icon"><i
+                                                        class="fa fa-upload"></i></span>
+                                <span class="file-label">파일 선택</span>
+                            </span>
+                                                <span id="file-name" class="file-name"
+                                                      style="width:100%;max-width:100%">{{ user_info.profile_pic }}</span>
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label" for="textarea-about">나는 누구?</label>
+
+                                    <p class="control">
+
+                        <textarea id="textarea-about" class="textarea"
+                                  placeholder="자기소개하기">{{ user_info.profile_info }}</textarea>
+                                    </p>
+                                </div>
+                                <nav class="level is-mobile">
+                                    <div class="level-left">
+
+                                    </div>
+                                    <div class="level-right">
+                                        <div class="level-item">
+                                            <a class="button is-sparta" onclick="update_profile()">업데이트</a>
+                                        </div>
+                                        <div class="level-item">
+                                            <a class="button is-sparta is-outlined"
+                                               onclick='$("#modal-edit").removeClass("is-active")'>취소</a>
+                                        </div>
+                                    </div>
+                                </nav>
+                            </div>
+                        </article>
+                    </div>
                 </div>
-            </nav>
-        </nav>
+                <button class="modal-close is-large" aria-label="close"
+                        onclick='$("#modal-edit").removeClass("is-active")'></button>
+            </div>
+        <div class="logout">
+            <a onclick='$("#modal-edit").addClass("is-active")'
+               style="font-size: 25px;color: black;margin-right: 20px">{{ user_info.profile_name }}님 반가워요😎</a>
+            <button type="button" class="btn btn-light" style="font-family: 'JSongMyung-Regular-KO';font-size: 17px"
+                    onclick="window.location.href = '/write'">작품 추가하기
+            </button>
+            <button type="button" class="btn btn-light" style="font-family: 'JSongMyung-Regular-KO';font-size: 17px"
+                    onclick="sigh_out() ">로그아웃
+            </button>
+        </div>
     </div>
 </div>
 
 
-<div class="alert alert-primary" role="alert" style="font-size:60px;text-align: center">
+<div class="alert alert-primary" role="alert" style="font-size:45px;text-align: center">
     {{ word }}
 </div>
-<div class="img">
-    {% for review in reviews %}
-        <img src="/static/{{ review.file }}">
-    {% endfor %}
-</div>
 
-<div class="intro" id="review-box">
-    {% for review in reviews %}
-        <button type="button" class="btn btn-info">{{ user_info.profile_name }}</button>
-        <button type="button" class="btn btn-warning">{{ review.genre }}</button>
-        <button type="button" class="btn btn-success"
-                style="font-family: 'Dongle', sans-serif;">{{ review.finger }}</button>
+<div class="postarea">
+    <div class="img" >
+        {% for review in reviews %}
+            <img style="max-height: 500px;" src="/static/{{ review.file }}">
+        {% endfor %}
+    </div>
 
-        <p style="background-color: white;font-size: 30px;margin-top: 20px;border-radius: 5px"><span
-                style="font-weight:1000;padding-left:20px">코멘트: </span> {{ review.comment }}</p>
-    {% endfor %}
+    <div class="intro" id="review-box">
+    <div class="buttons">
+        {% for review in reviews %}
+            <button type="button" class="btn btn-info"
+                    style="font-family: 'JSongMyung-Regular-KO'; margin-right: 3px;">{{ review.page_num }}</button>
+            <button type="button" class="btn btn-info"
+                    style="font-family: 'JSongMyung-Regular-KO'; margin-right: 3px;">{{ review.username }}</button>
+            <button type="button" class="btn btn-warning"
+                    style="font-family: 'JSongMyung-Regular-KO'; margin-right: 3px;">{{ review.genre }}</button>
+            <button type="button" class="btn btn-success"
+                    style="font-family: 'JSongMyung-Regular-KO'; margin-right: 3px;">{{ review.finger }}</button>
+        </div>
+
+            <p style="background-color: white;font-size: 30px;margin-top: 20px;border-radius: 5px;padding-top: 5px;"><span
+                    style="font-weight:1000;padding-left:20px">코멘트: </span> {{ review.comment }}</p>
+        {% endfor %}
+    </div>
+
 </div>
 
 <hr class="hr2">
@@ -299,8 +399,11 @@
 <div class="mybox00">
     <div class="mybox" style="background-color: white;border-radius: 10px">
         <div class="mybucket">
-            <input id="view" class="form-control" type="text" placeholder="댓글을 남겨주세요.">
-            <button onclick="save_view()" type="button" class="btn btn-outline-primary">등록하기</button>
+            <input id="view" class="form-control" type="text" placeholder="댓글을 남겨주세요."
+                   style="font-family: 'JSongMyung-Regular-KO';">
+            <button onclick="save_view()" type="button" class="btn btn-outline-primary"
+                    style="font-family: 'JSongMyung-Regular-KO';">등록하기
+            </button>
         </div>
     </div>
     <div class="mybox" id="view-list" style="background-color: white;border-radius: 10px">

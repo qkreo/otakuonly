@@ -54,7 +54,7 @@ def sign_in():
          'id': username_receive,
          'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
         }
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')#접속 오류 .decode('utf-8')
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')#.decode('utf-8')
 
         return jsonify({'result': 'success', 'token': token,'msg':'접속을환영합니다'})
     # 찾지 못하면
@@ -147,6 +147,8 @@ def save_page():
             comment_receive = request.form['comment_give']
             finger_receive = request.form['finger_give']
             genre_receive = request.form['genre_give']
+            page_list = list(db.page.find({}, {'_id': False}))
+            count = len(page_list) + 1
 
             file = request.files["file_give"]
 
@@ -168,7 +170,8 @@ def save_page():
                 'finger': finger_receive,
                 'file': f'{filename}.{extension}',
                 'genre': genre_receive,
-                'time': savetime
+                'time': savetime,
+                'page_num':count
             }
             db.page.insert_one(doc)
 
