@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <meta property="og:title" content="너만 오타쿠가 아니야!"/>
+    <meta property="og:description" content="애니메이션 리뷰를 남겨보아요"/>
+    <meta property="og:image" content="{{ url_for('static', filename='logo1.png') }}"/>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='logo1.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='logo1.png') }}" type="image/x-icon">
+
+
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" as="style" crossorigin
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.5/dist/web/static/pretendard.css"/>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    {#쿠키이용#}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+    {#구글웹폰트#}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dongle:wght@300&display=swap" rel="stylesheet">
+
+    {# 스타일 시트 불러오기#}
+    <link href="{{ url_for('static', filename='otaku.css') }}" rel="stylesheet">
+
+
+    <title>너만오타쿠가아니야!</title>
+
+    <style>
+
+        .img {
+            width: 70%;
+            height: 600px;
+
+            margin-left: 15%;
+
+            color: white;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .intro {
+            /*outline: 5px solid deeppink;*/
+            width: 70%;
+            height: 100%;
+
+
+            margin-left: 15%;
+        }
+
+        .best {
+            /*outline: 1px solid red;*/
+            width: 70%;
+            margin-left: 15%;
+            background-color: #f9f9f9;
+        }
+
+        /* Dropdown Button */
+        .dropbtn {
+            background-color: transparent;
+            color: black;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Dropdown button on hover & focus */
+        .dropbtn:hover, .dropbtn:focus {
+            background-color: transparent;
+        }
+
+        /* The container <div> - needed to position the dropdown content */
+        /*#myDropdown{
+            position: relative;
+            display: inline-block;
+        }*/
+
+        /* Dropdown Content (Hidden by Default) */
+        .dropdown-content {
+            width: 70%;
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+
+            /*box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);*/
+        }
+
+        /* Links inside the dropdown */
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+
+        /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+        .show {
+            display: block;
+        }
+
+        .hr2 {
+            width: 70%;
+            margin-left: 15%;
+        }
+
+        .hr3 {
+            width: 98%;
+            margin-left: 1%;
+            color: gray;
+        }
+
+
+        .mybox00 {
+
+            width: 70%;
+            margin-left: 15%;
+        }
+
+        .mybox {
+            width: 100%;
+            padding: 20px;
+            box-shadow: 0px 0px 5px 0px lightblue;
+            margin: 20px auto;
+        }
+
+        .mybucket {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mybucket > input {
+            width: 100%;
+        }
+
+        .mybox > li {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 10px;
+            min-height: 48px;
+        }
+
+        .mybox > li > h2 {
+            max-width: 75%;
+            font-size: 17px;
+            font-weight: 500;
+            margin-right: auto;
+            margin-bottom: 0px;
+        }
+
+        .mybox > li > h2.done {
+            text-decoration: line-through
+        }
+
+
+    </style>
+
+    <script>
+
+        {% if msg %}
+            alert("{{ msg }}")
+        {% endif %}
+
+
+
+        function update_profile() {
+            let name = $('#input-name').val()
+            let file = $('#input-pic')[0].files[0]
+            let about = $("#textarea-about").val()
+            let form_data = new FormData()
+            form_data.append("file_give", file)
+            form_data.append("name_give", name)
+            form_data.append("about_give", about)
+            console.log(name, file, about, form_data)
+
+            $.ajax({
+                type: "POST",
+                url: "/update_profile",
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        alert(response["msg"])
+                        window.location.reload()
+
+                    }
+                }
+            });
+        }
+
+
+
+        $(document).ready(function () {
+            show_view();
+        });
+
+        function show_view() {
+            let page_num = $('#page_num').text()
+
+            $.ajax({
+                type: "GET",
+                url: "/view",
+                data: {},
+                success: function (response) {
+                    let rows = response['view']
+                    console.log(rows)
+                    for (let i = 0; i < rows.length; i++) {
+                        let view = rows[i]['view']
+                        let num = rows[i]['page_num']
+
+                        let temp_html = ``
+
+                        if (page_num == num) {
+                            temp_html = `
+                                             <li>
+                                            <h2 style="font-size: 30px">💟 ${view} </h2>`
+                        }
+                        $('#view-list').append(temp_html)
+                    }
+                }
+            });
+        }
+
+        function save_view() {
+            let view = $('#view').val()
+            let page_num = $('#page_num').text()
+            $.ajax({
+                type: "POST",
+                url: "/view",
+                data: {view_give: view, num_give: page_num},
+                success: function (response) {
+                    if (view == "") {
+                        alert("댓글을 입력해 주세요.")
+                    } else {
+                        alert(response["msg"])
+                        window.location.reload()
+                    }
+
+                }
+            });
+        }
+
+    </script>
+</head>
+
+<body>
+
+<div class="titlearea">
+    <div class="mytitle">
+        <div class="logoicon" onclick=window.location.href="/"></div>
+        <div class="search-box d-flex justify-content-center">
+            <input id="input-word" class="form-control" style="margin-right: 0.5rem">
+            <button class="btn btn-light"><i class="fa fa-search"></i></button>
+        </div>
+        <div class="modal" id="modal-edit">
+                <div class="modal-background" onclick='$("#modal-edit").removeClass("is-active")'></div>
+                <div class="modal-content">
+                    <div class="box">
+                        <article class="media">
+                            <div class="media-content">
+                                <div class="field">
+                                    <label class="label" for="input-name">이름</label>
+
+                                    <p class="control">
+
+                                        <input id="input-name" class="input"
+                                               placeholder="닉네임 설정" value="{{ user_info.profile_name }}">
+                                    </p>
+                                </div>
+                                <div class="field">
+                                    <label class="label" for="input-pic">프로필 사진</label>
+
+                                    <div class="control is-expanded">
+                                        <div class="file has-name">
+                                            <label class="file-label" style="width:100%">
+                                                <input id="input-pic" class="file-input" type="file"
+                                                       name="resume">
+                                                <span class="file-cta"><span class="file-icon"><i
+                                                        class="fa fa-upload"></i></span>
+                                <span class="file-label">파일 선택</span>
+                            </span>
+                                                <span id="file-name" class="file-name"
+                                                      style="width:100%;max-width:100%">{{ user_info.profile_pic }}</span>
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label" for="textarea-about">나는 누구?</label>
+
+                                    <p class="control">
+
+                        <textarea id="textarea-about" class="textarea"
+                                  placeholder="자기소개하기">{{ user_info.profile_info }}</textarea>
+                                    </p>
+                                </div>
+                                <nav class="level is-mobile">
+                                    <div class="level-left">
+
+                                    </div>
+                                    <div class="level-right">
+                                        <div class="level-item">
+                                            <a class="button is-sparta" onclick="update_profile()">업데이트</a>
+                                        </div>
+                                        <div class="level-item">
+                                            <a class="button is-sparta is-outlined"
+                                               onclick='$("#modal-edit").removeClass("is-active")'>취소</a>
+                                        </div>
+                                    </div>
+                                </nav>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <button class="modal-close is-large" aria-label="close"
+                        onclick='$("#modal-edit").removeClass("is-active")'></button>
+            </div>
+        <div class="logout">
+            <a onclick='$("#modal-edit").addClass("is-active")'
+               style="font-size: 25px;color: black;margin-right: 20px">{{ user_info.profile_name }}님 반가워요😎</a>
+            <button type="button" class="btn btn-light" style="font-family: 'JSongMyung-Regular-KO';font-size: 17px"
+                    onclick="window.location.href = '/write'">작품 추가하기
+            </button>
+            <button type="button" class="btn btn-light" style="font-family: 'JSongMyung-Regular-KO';font-size: 17px"
+                    onclick="sigh_out() ">로그아웃
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<div class="alert alert-primary" role="alert" style="font-size:45px;text-align: center">
+    {{ word }}
+</div>
+
+<div class="postarea">
+    <div class="img" >
+        {% for review in reviews %}
+            <img style="max-height: 500px;" src="/static/{{ review.file }}">
+        {% endfor %}
+    </div>
+
+    <div class="intro" id="review-box">
+    <div class="buttons">
+        {% for review in reviews %}
+            <button type="button" class="btn btn-info"
+                    style="font-family: 'JSongMyung-Regular-KO'; margin-right: 3px;" id="page_num">{{ review.page_num }}</button>
+            <button type="button" class="btn btn-info"
+                    style="font-family: 'JSongMyung-Regular-KO'; margin-right: 3px;">{{ review.username }}</button>
+            <button type="button" class="btn btn-warning"
+                    style="font-family: 'JSongMyung-Regular-KO'; margin-right: 3px;">{{ review.genre }}</button>
+            <button type="button" class="btn btn-success"
+                    style="font-family: 'JSongMyung-Regular-KO'; margin-right: 3px;">{{ review.finger }}</button>
+        </div>
+
+            <p style="background-color: white;font-size: 30px;margin-top: 20px;border-radius: 5px;padding-top: 5px;"><span
+                    style="font-weight:1000;padding-left:20px">코멘트: </span> {{ review.comment }}</p>
+        {% endfor %}
+    </div>
+
+</div>
+
+<hr class="hr2">
+
+<div class="mybox00">
+    <div class="mybox" style="background-color: white;border-radius: 10px">
+        <div class="mybucket">
+            <input id="view" class="form-control" type="text" placeholder="댓글을 남겨주세요."
+                   style="font-family: 'JSongMyung-Regular-KO';">
+            <button onclick="save_view()" type="button" class="btn btn-outline-primary"
+                    style="font-family: 'JSongMyung-Regular-KO';">등록하기
+            </button>
+        </div>
+    </div>
+    <div class="mybox" id="view-list" style="background-color: white;border-radius: 10px">
+    </div>
+</div>
+
+
+</body>
+</html>
