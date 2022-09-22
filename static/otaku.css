@@ -1,5 +1,11 @@
-*{
+* {
     font-family: 'Dongle', sans-serif;
+}
+
+a {
+    color: #797979;
+    text-decoration: none !important;
+    background-color: transparent;
 }
 
 body {
@@ -7,6 +13,11 @@ body {
     background-size: cover;
     background-position: center;
     min-height: 100vh;
+}
+
+.highlight {
+    background-color: #e8344e;
+    color: white;
 }
 
 .addanime {
@@ -22,12 +33,6 @@ body {
     background: transparent;
 }
 
-.a {
-    color: #797979;
-    text-decoration: none;
-    background-color: transparent;
-}
-
 .button.is-sparta {
     background-color: black;
     border-color: transparent;
@@ -39,6 +44,12 @@ body {
     border-color: black;
     color: black !important;
 }
+
+/*.toprightarea {*/
+/*    display: inline-flex;*/
+/*}*/
+
+.logout.flex-container.flex-end{justify-content: flex-end;}
 
 .titlearea {
     position: relative;
@@ -52,12 +63,13 @@ body {
     /*padding-left: 3.125rem;*/
     /*padding-right: 3.125rem;*/
     position: relative;
-    /*display: flex;*/
+    display: inline-flex;
     -webkit-box-align: center;
     align-items: center;
     height: 100px;
     width: 100%;
     color: rgb(255, 255, 255);
+    background-color: white;
     border-bottom: 1px lightgray solid;
 }
 
