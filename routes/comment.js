@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 
+const Post = require("../schemas/post"); // 포스트 스키마 경로
 const Comment = require("../schemas/comment"); // 코멘트 스키마 경로
 
 //댓글 전체보기 API

@@ -3,12 +3,8 @@ const express = require('express');
 const router = express.Router();
 
 const postsRouter = require("./posts"); // 포스트 라우터 경로
-const goodsRouter = require("./goods"); // 굿즈 라우터 경로
-const cartsRouter = require("./cart"); // 카트 라우터 경로
 
 const Post = require("../schemas/post");// 포스트 스키마 경로
-
-router.use([goodsRouter, cartsRouter]);  // 굿즈라우터 , 카트 라우터 사용
 
 router.use("/posts", [postsRouter]); // 포스트 라우터 사용
 
