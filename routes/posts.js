@@ -38,7 +38,8 @@ router.post("/", async (req, res) => { //post 메소드
 
 router.patch('/:_id', async (req,res) => { //patch 메소드 
 
-    const { _id } = req.params; // 현재 들어가있는 게시글의 파라미터 값을 가져온다 그 뒤 구조 분해 현재 localhost:5000/index/posts/:_id (_id="633866a7f81d9ea29ffe02d7") 상태임
+    const { _id } = req.params; // 현재 들어가있는 게시글의 파라미터 값을 가져온다 그 뒤 구조 분해 현재 localhost:5000/index/posts/:_id ( {_id="633866a7f81d9ea29ffe02d7"} ) 상태임
+     //req.params = {_id="633866a7f81d9ea29ffe02d7"}    
     const { password , content , user , title } = req.body;  // 바디에서 작성된 값을 가져온뒤 구조 분해
     const posts = await Post.find({"_id" : _id}); // Post DB에서 해당 데이터를 가져옴
     
