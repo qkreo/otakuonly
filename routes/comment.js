@@ -61,7 +61,7 @@ router.delete('/:comment_id', async (req,res) => { //delete 메소드
     
     if(String(password) === comment[0].password){ // 비밀번호 비교
         await Comment.deleteOne({"_id" : comment_id}); // db에서 데이터삭제
-        res.json({msg : "게시글 삭제가 완료 되었습니다."}); 
+        res.json({msg : "댓글 삭제가 완료 되었습니다."}); 
     } else { // 비밀번호 틀릴시
         res.status(400).json({ errorMessage: "비밀번호가 다릅니다" });  // 에러메세지 출력    
     };
