@@ -14,7 +14,8 @@ router.get("/:postId/comments", async (req, res) => { // get 메소드 현재 �
    
       return {"user":comment.user,
         "content":comment.content,
-        "date":comment.created
+        "date":comment.created,
+        "commentId":comment._id
         };
     });   
     res.json({ comments : commentList });   
