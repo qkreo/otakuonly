@@ -26,15 +26,10 @@ const postSchema = new mongoose.Schema({
   created : {                  
     type : Date,
     default : Date.now
-}                             
-
+  } 
+                              
+},{
+  versionKey :false
 });
-
-
-        // 게시글 제목
-        // 작성자명
-        // 작성 날짜
-        // 작성당시 비밀번호 설정 > 암호화가 필요한가?
-        // 작성 내용
 
 module.exports = mongoose.model("post", postSchema);

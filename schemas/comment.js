@@ -19,12 +19,20 @@ const commentSchema = new mongoose.Schema({
     required: true,
     
   },
+  postId: {
+    type: String,
+    required: true,
+    
+  },
   created : {                  
     type : Date,
     default : Date.now
-}                             
+  }
+},{
+  versionKey :false
+});                             
 
-});
+
 
 
 module.exports = mongoose.model("comment", commentSchema);

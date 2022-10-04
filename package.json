@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "scripts":{
+    "dev":"nodemon ./app.js"
   },
   "keywords": [],
   "author": "",
@@ -16,5 +16,8 @@
     "mongoose": "^6.6.3",
     "postman": "^0.2.0"
   },
-  "type": "commonjs"
+  "type": "commonjs",
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
 }
