@@ -70,9 +70,9 @@ router.post("/", authMiddleware ,async (req, res) => {
 	const { title, content } = req.body; 
     const { nickname } = res.locals.user;
 
-  const createdPost = await posts.create({ title, nickname, content });
+    const createdPost = await posts.create({ title, nickname, content });
 
-  res.json({ post : createdPost , msg:"게시글 작성이 완료되었습니다." }); 
+    res.json({ post : createdPost , msg:"게시글 작성이 완료되었습니다." }); 
 });
 
 // 게시글 수정 API
@@ -97,13 +97,10 @@ router.delete('/:postId',authMiddleware, async (req,res) => {
     const { postId } = req.params; // 위와 동일
     const { nickname } = res.locals.user; 
 
-    const deletepost = await posts.findOne({where: { postId,nickname }});
-
-    if (deletepost) {
+   try {
         await posts.destroy({where: { postId,nickname }});
-
         res.json({ msg : "게시글 삭제가 완료 되었습니다."}); 
-    } else {
+    } catch(err) {
         res.json({ errormsg : "권한이 없습니다"}); 
     } 
 });

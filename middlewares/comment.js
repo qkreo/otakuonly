@@ -56,13 +56,11 @@ router.patch('/:postId/comments/:commentId',authMiddleware, async (req,res) => {
 router.delete('/:postId/comments/:commentId', authMiddleware, async (req,res) => { //delete 메소드
     const { commentId } = req.params; // 구조분해
     const { nickname } = res.locals.user;
-
-    const deletepost = await comments.findOne({ where: { commentId,nickname } });
-
-        if(deletepost) {
+    
+        try {
             await comments.destroy({where: { commentId,nickname }}); // db에서 데이터삭제      
             res.json({msg : "댓글 삭제가 완료 되었습니다."}); 
-        } else {
+        } catch(err) {
             res.json({errormsg : "댓글을 찾지 못했거나, 작성자가 아닙니다"}); 
         }     
 });
