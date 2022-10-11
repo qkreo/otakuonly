@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const { User } = require("../models");
-const secretKey = "customized-secret-key"
+
+require('dotenv').config(); // 닷 env
+
 
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
@@ -13,7 +15,7 @@ module.exports = (req, res, next) => {
     return;
   }
   try {
-    const { userId } = jwt.verify(authToken, secretKey);
+    const { userId } = jwt.verify(authToken, process.env.secretKey);
     User.findByPk(userId).then((user) => {
       res.locals.user = user;
       next();

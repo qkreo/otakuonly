@@ -6,12 +6,12 @@ const jwt = require("jsonwebtoken"); // 토큰 모듈
 const { Op } = require("sequelize"); // 시퀄라이즈 mysql 모듈
 const { User } = require("../models"); // mysql  유저 스키마 모듈
 
-const secretKey = "customized-secret-key"
+require('dotenv').config(); // 닷 env
 
 //  유효성 검사
 const schema = Joi.object().keys({ 
     nickname: Joi.string().min(3).max(30),
-    password: Joi.string().min(4).max(20).disallow(Joi.ref('nickname')),
+    password: Joi.string().min(4).max(20),
     confirmPassword:Joi.ref('password'),
     email:Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
     })
@@ -30,14 +30,22 @@ router.post("/users", async (req, res) => {
     const info = req.body;
     const email = info.email;
     const nickname = info.nickname;
+    const password = info.password;
+
 
     try {
         if(req.headers.authorization){
             res.status(400).json({error:"이미 로그인이 되어있습니다."})
             return;
         }
+        
         await schema.validateAsync(info);
 
+        if(password.indexOf(nickname) !== -1){
+            res.status(400).json({error:"비밀번호에는 닉네임과 동일한 문자를 포함할수없습니다"})
+            return;
+        }
+        
         const existUsers = await User.findAll({
             where: { [Op.or]: [{ nickname:nickname }, { email:email }] } });
         
@@ -51,8 +59,8 @@ router.post("/users", async (req, res) => {
             const hashedPw = crypto.pbkdf2Sync(info.password, salt, 50, 32, 'sha512').toString('base64')
             await User.create({ email, nickname, hashedPw ,salt});
             res.status(201).send({ message: "회원 가입에 성공하였습니다." }); 
-
             }                   
+
     } catch (e) { // 유효성 검사 에러
         return res.status(400).json({ code: 400, message: e.message }) 
     }
@@ -78,7 +86,7 @@ router.post("/auth", async (req, res) => {
             });
             return;
         } else {
-            const token = jwt.sign({ userId: user.userId }, secretKey);
+            const token = jwt.sign({ userId: user.userId }, process.env.secretKey);
             res.send({token});      
         }
         
