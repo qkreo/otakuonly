@@ -32,7 +32,7 @@ router.post('/like', authMiddleware, async (req, res) => {
             });      
         }  
     })
-    likelist.sort(function(a, b){return b.likes - a.likes});
+    likelist.sort((a, b) => {return b.likes - a.likes});
     res.json({likelist});             
 });
 

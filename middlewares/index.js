@@ -32,6 +32,10 @@ router.post("/users", async (req, res) => {
     const nickname = info.nickname;
 
     try {
+        if(req.headers.authorization){
+            res.status(400).json({error:"이미 로그인이 되어있습니다."})
+            return;
+        }
         await schema.validateAsync(info);
 
         const existUsers = await User.findAll({
@@ -46,7 +50,8 @@ router.post("/users", async (req, res) => {
             const salt = crypto.randomBytes(32).toString('base64');
             const hashedPw = crypto.pbkdf2Sync(info.password, salt, 50, 32, 'sha512').toString('base64')
             await User.create({ email, nickname, hashedPw ,salt});
-            res.status(201).send({ message: "회원 가입에 성공하였습니다." });  
+            res.status(201).send({ message: "회원 가입에 성공하였습니다." }); 
+
             }                   
     } catch (e) { // 유효성 검사 에러
         return res.status(400).json({ code: 400, message: e.message }) 
@@ -56,8 +61,12 @@ router.post("/users", async (req, res) => {
 // 토큰 발급 및 로그인 API 
 router.post("/auth", async (req, res) => {
     const info = req.body;
-      
-    try { // 검사시작 
+    
+    try { // 검사시작
+        if(req.headers.authorization){
+            res.status(400).json({error:"이미 로그인이 되어있습니다."})
+            return;
+        }
         await schema.validateAsync(info);
         const user = await User.findOne({ where: { email:info.email} });
 
