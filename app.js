@@ -7,7 +7,7 @@ const indexRouter = require("./middlewares/index"); // 인덱스 라우터 경�
 
 app.use(express.json()); // 모든코드에서 body parser 를 등록해서 전역에 사용한다
 
-app.use("/",[indexRouter]);  // 인덱스 라우터 사용
+app.use("/",indexRouter);  // 인덱스 라우터 사용
 app.use("/post", [postsRouter]); // 포스트 라우터 사용
 
 app.listen(port, () => {

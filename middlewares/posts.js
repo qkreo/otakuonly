@@ -82,14 +82,12 @@ router.patch('/:postId',authMiddleware, async (req,res) => {
     const {content , title } = req.body;
     const { nickname } = res.locals.user; 
 
-    const patchpost = await posts.findOne({where: { postId,nickname }});
-
-    if(patchpost) {     
-        await posts.update({ content, title } , {  where: { postId, nickname }  }); 
-        res.json({ post : patchpost, msg:"게시글 수정이 완료 되었습니다."});
-    } else {
-        res.json({errormsg:"권한이 없습니다"});
-    }
+    const [updatePost] = await posts.update({ content,title } , { where: { postId,nickname } }); // 트랜젝션을 걸어준다
+            if (updatePost) {
+                res.json({msg:"게시글수정이 완료 되었습니다."});
+            }  else {
+                res.json({errormsg:"게시글을 찾지 못했거나, 작성자가 아닙니다"});
+            }       
 });
 
 // 게시글 삭제 API

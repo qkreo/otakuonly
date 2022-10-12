@@ -42,8 +42,7 @@ router.patch('/:postId/comments/:commentId',authMiddleware, async (req,res) => {
             res.status(400).json({ errorMessage: "댓글 내용을 입력해주세요" }); // 에러메세지 res
             
         } else if (content) { // 컨텐츠에 값이 있을경우 
-            const [updatePost] = await comments.update({ content } , { where: { commentId,nickname } });
-
+            const [updatePost] = await comments.update({ content } , { where: { commentId,nickname } }); // 트랜젝션을 걸어준다
             if (updatePost) {
                 res.json({msg:"댓글수정이 완료 되었습니다."});
             }  else {

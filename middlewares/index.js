@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken"); // 토큰 모듈
 const { Op } = require("sequelize"); // 시퀄라이즈 mysql 모듈
 const { User } = require("../models"); // mysql  유저 스키마 모듈
 
-require('dotenv').config(); // 닷 env
+require('dotenv').config(); // 닷 env  
 
 //  유효성 검사
 const schema = Joi.object().keys({ 
@@ -86,8 +86,8 @@ router.post("/auth", async (req, res) => {
             });
             return;
         } else {
-            const token = jwt.sign({ userId: user.userId }, process.env.secretKey);
-            res.send({token});      
+            const token = jwt.sign({ userId: user.userId }, process.env.secretKey,{expiresIn: "30m"}); //토큰 암호화 유효기한 30분
+            res.json({token});      
         }
         
     } catch (e) { // 유효성 검사 에러 
