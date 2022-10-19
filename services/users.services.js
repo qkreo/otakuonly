@@ -41,13 +41,15 @@ class UserService {
 
             if (loginUser.hashedPw !== hashedPw) {
                 throw new Error('닉네임 또는 비밀번호가 다릅니다');
+            } else {
+                const token = jwt.sign(
+                    { userId: loginUser.userId },
+                    process.env.secretKey,
+                    { expiresIn: '12h' }
+                );
+                return token;
             }
-            const token = jwt.sign(
-                { userId: loginUser.userId },
-                process.env.secretKey,
-                { expiresIn: '12h' }
-            );
-            return token;
+            
         }
     };
 }

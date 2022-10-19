@@ -19,22 +19,25 @@ class UsersController {
             if (req.headers.authorization) {
                 res.status(400).json({ error: '이미 로그인이 되어있습니다.' });
                 return;
-            }
-            const { nickname, password } = await schema.validateAsync(req.body);
-
-            if (password.indexOf(nickname) !== -1) {
-                res.status(400).json({
-                    error: '비밀번호에는 닉네임과 동일한 문자를 포함할수없습니다',
-                });
-                return;
             } else {
-                const signUpUser = await this.UserService.signUpUser(
-                    nickname,
-                    password
+                const { nickname, password } = await schema.validateAsync(
+                    req.body
                 );
-                res.status(201).send({ data: signUpUser });
+
+                if (password.indexOf(nickname) !== -1) {
+                    res.status(400).json({
+                        error: '비밀번호에는 닉네임과 동일한 문자를 포함할수없습니다',
+                    });
+                    return;
+                } else {
+                    const signUpUser = await this.UserService.signUpUser(
+                        nickname,
+                        password
+                    );
+                    res.status(201).send({ data: signUpUser });
+                }
             }
-        } catch (err) {          
+        } catch (err) {
             next(err);
         }
     };
@@ -46,14 +49,17 @@ class UsersController {
             if (req.headers.authorization) {
                 res.status(400).json({ error: '이미 로그인이 되어있습니다.' });
                 return;
-            }
-            const { nickname, password } = await schema.validateAsync(req.body);
+            } else {
+                const { nickname, password } = await schema.validateAsync(
+                    req.body
+                );
 
-            const LoginUser = await this.UserService.loginUser(
-                nickname,
-                password
-            );
-            res.status(201).send({ token: LoginUser });
+                const LoginUser = await this.UserService.loginUser(
+                    nickname,
+                    password
+                );
+                res.status(201).send({ token: LoginUser });
+            }
         } catch (err) {
             next(err);
         }
